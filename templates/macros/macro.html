@@ -1,0 +1,16 @@
+<!-- Maak een macro met de naam nav_link waarin je de verschillende onderdelen van de navigatie opbouwt.
+Je hoeft geen specifieke css toe te voegen. -->
+{% macro nav_link(foto,naam) %}
+
+
+
+<!-- Bouw volgende voorbeeldcode om naar een macro om in collection.html te gebruiken -->
+<a href="gamedetails/{{ naam }}">
+    <figure>
+        <img src="../static/images/{{ foto }}" alt="{{ naam }}"><br/>
+        <figcaption>
+            {{ naam }}
+        </figcaption>
+    </figure>
+</a>
+{% endmacro %}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inloggen</title>
+    <link href="/static/css/style2.css" rel="stylesheet">
+</head>
+<body>
+    <div id="title">Aqua Aquariums</div>
+	<div id="inhoud">
+    <h1>Welkom</h1><br>
+	</div>
+	<form action="{{ url_for('home') }}" method="POST">
+	<fieldset>
+	<legend>Inloggen</legend>
+	<table>
+		<tr><td>Gebruikersnaam:</td><td> <input type="text" name="gn"></td></tr>
+		<tr><td>Wachtwoord:</td><td> <input type="password" name="ww"><br></td></tr>
+		<tr><td></td><td><input type="submit" value="Inloggen" name="inloggen"></td><tr>
+	</table>
+    
+	</fieldset>
+	</form>
+</body>
+</html>

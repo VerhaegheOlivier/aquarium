@@ -1,0 +1,18 @@
+<!-- Vul dit bestand verder aan, zodat het samenwerkt met layout.html, vergeet ook de titel niet -->
+<!-- Zorg dat voor elk spel (dat met een letter a begint) een macro opgeroepen wordt om het spel weer te geven. -->
+{%  extends "layout.html" %}
+{% block inhoud %}
+<h1>Temperatuur aanpassen</h1>
+    <h2>Zelf aanpassen</h2>
+    <form action="{{ url_for('aangepastZelf') }}" name="temperatuurZelf" method="post">
+        temperatuur in geven <input type="number" name="zelfGraden"><br>
+        <input type="submit" value="Verander temperatuur" name="veranderZelf"><br>
+        {{ commentZelf }}
+    </form>
+    <h2>Opvragen</h2>
+    <form action="{{ url_for('aangepastAuto') }}" name="temperatuurZelf" method="post">
+        Haal temperatuur op <select name="autoGraden"><option value="" selected>Vissen</option><option value="vis1">vis1</option><option value="vis2">vis2</option></select><br>
+        <input type="submit" value="Verander temperatuur" name="veranderAuto"><br>
+        {{ commentAuto }}
+    </form>
+{% endblock %}

@@ -1,0 +1,13 @@
+<!-- Vul dit bestand verder aan, zodat het samenwerkt met layout.html, vergeet ook de titel niet -->
+<!-- Zorg dat voor elk spel (dat met een letter a begint) een macro opgeroepen wordt om het spel weer te geven. -->
+{%  extends "layout.html" %}
+{% block inhoud %}
+<h1>Collection</h1>
+{% for game in col %}
+    <div>
+        <div id="game">
+            {{ macro.nav_link(game[3],game[1]) }}
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}
