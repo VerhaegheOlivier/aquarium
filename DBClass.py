@@ -12,8 +12,11 @@ class DbClass:
         self.__cursor.execute(q)
         result = self.__cursor.fetchall()
         self.__cursor.close()
-        for ww2 in result:
-            if(ww2[0]==ww):
-                return "home.html"
-            else:
-                return "index.html"
+        if len(result)==1:
+            for ww2 in result:
+                if(ww2[0]==ww):
+                    return "home.html"
+                else:
+                    return "index.html"
+        else:
+            return  "index.html"
