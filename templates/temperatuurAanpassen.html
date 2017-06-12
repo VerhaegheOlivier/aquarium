@@ -11,7 +11,11 @@
     </form>
     <h2>Opvragen</h2>
     <form action="{{ url_for('aangepastAuto') }}" name="temperatuurZelf" method="post">
-        Haal temperatuur op <select name="autoGraden"><option value="" selected>Vissen</option><option value="vis1">vis1</option><option value="vis2">vis2</option></select><br>
+        Haal temperatuur op <select name="autoGraden"><option value="" selected>Vissen</option>
+        {% for vis in vissen %}
+            <option value="{{ vis[1] }}">{{ vis[0] }}</option>
+        {% endfor %}
+        <br></select>
         <input type="submit" value="Verander temperatuur" name="veranderAuto"><br>
         {{ commentAuto }}
     </form>
