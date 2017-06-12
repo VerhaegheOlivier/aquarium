@@ -42,7 +42,7 @@ def aangepastAuto():
         commentAuto="*Gelieve een waarde te selcteren."
     return  render_template("temperatuurAanpassen.html", commentAuto=commentAuto)
 
-@app.route('/instellinge')
+@app.route('/instellingen')
 def instellingen():
     return render_template("instellingen.html")
 
