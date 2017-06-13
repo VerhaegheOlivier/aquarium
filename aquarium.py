@@ -14,7 +14,9 @@ def home():
     ww = request.form["ww"]
     db=DbClass()
     page=db.inlog(gn,ww)
-    return render_template(page)
+    #temp=db.temp()
+    temp=""
+    return render_template(page,temp=temp)
 
 @app.route('/home')
 def home2():
@@ -51,7 +53,7 @@ def instellingen(comment=""):
     gegevens = db.getGegevens(gn, ww)
     for gegeven in gegevens:
         for i in gegeven:
-            if len(i)>3:
+            if len(i)>4:
                 global id,naam,voornaam,email,gebruikersnaam,wachtwoord
                 id=i[0]
                 naam=i[1]
@@ -60,10 +62,11 @@ def instellingen(comment=""):
                 gebruikersnaam=i[6]
                 wachtwoord=i[7]
             else:
-                global lengte,breedte,hoogte
+                global lengte,breedte,hoogte, aquariumID
                 lengte=i[0]
                 breedte=i[1]
                 hoogte=i[2]
+                aquariumID=i[3]
 
     return render_template("instellingen.html",naam=naam,voornaam=voornaam,email=email,gebruikersnaam=gebruikersnaam,wachtwoord=wachtwoord,lengte=lengte,breedte=breedte,hoogte=hoogte, commentUpdate=comment)
 

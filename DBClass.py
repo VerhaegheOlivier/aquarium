@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 class DbClass:
+    __bestand = '/sys/bus/w1/devices/28-031660e6d0ff/w1_slave'
     def __init__(self):
         import mysql.connector as connector
 
@@ -27,7 +28,7 @@ class DbClass:
         resultGebruiker = self.__cursor.fetchall()
 
         for id in resultGebruiker:
-            qAquarium = "SELECT lengte,breedte,hoogte FROM vissendb.tblaquarium where gebruikerID=" + str(id[0]) + ";"
+            qAquarium = "SELECT lengte,breedte,hoogte, aquariumID FROM vissendb.tblaquarium where gebruikerID=" + str(id[0]) + ";"
             self.__cursor.execute(qAquarium)
         resultAquarium = self.__cursor.fetchall()
 
@@ -53,3 +54,21 @@ class DbClass:
         result = self.__cursor.fetchall()
         self.__cursor.close()
         return result
+
+    def getLog(self,aquariumID):
+        q = "SELECT time, temperatuur, gemiddeldeTemperatuur FROM vissendb.tbllogfile where aquariumID="+aquariumID+";"
+        self.__cursor.execute(q)
+        result = self.__cursor.fetchall()
+        self.__cursor.close()
+        return result
+
+
+    def temp(self):
+        fp = open(DbClass.__bestand, 'r')
+        regels = fp.readlines()
+        graden = regels[1].find('t=')
+        if graden > -1:
+            tekst = regels[1]
+            cel = int(tekst[graden + 2:-1]) / 1000.0
+            return str(cel) + '°C'
+
