@@ -75,7 +75,6 @@ class DbClass:
         print(q1)
         self.__cursor.execute(q1)
         result = self.__cursor.fetchall()
-        self.__cursor.close()
         return result
 
     def temp(self):
