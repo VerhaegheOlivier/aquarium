@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 class DbClass:
-    __bestand = '/sys/bus/w1/devices/28-800000038fd7/w1_slave'
+    __bestand = '/sys/bus/w1/devices/28-031660e6d0ff/w1_slave'
     def __init__(self):
         import mysql.connector as connector
 
@@ -8,7 +8,6 @@ class DbClass:
 
         self.__connection=connector.connect(**self.__dsn)
         self.__cursor=self.__connection.cursor()
-        self.__id=""
     def inlog(self,gn,ww):
         q = "select wachtwoord from tblgebruiker where gebruikersnaam='"+gn+"';"
         self.__cursor.execute(q)
@@ -28,15 +27,16 @@ class DbClass:
     def getGegevens(self,gn,ww):
         qGebruiker="select * from tblgebruiker where gebruikersnaam='"+gn+"' and wachtwoord='"+ww+"';"
         self.__cursor.execute(qGebruiker)
-        resultGebruiker = self.__cursor.fetchall()
+        global resultGebruiker
+        self.__id = self.__cursor.fetchall()
 
-        for id in resultGebruiker:
-            self.__id=id[0]
+        for id in self.__id:
             qAquarium = "SELECT lengte,breedte,hoogte, aquariumID FROM vissendb.tblaquarium where gebruikerID=" + str(id[0]) + ";"
             self.__cursor.execute(qAquarium)
         resultAquarium = self.__cursor.fetchall()
         self.__cursor.close()
-        return resultGebruiker,resultAquarium
+
+        return self.__id,resultAquarium
 
     def updateGegevens(self,id,naam,voornaam,email, gebruikersnaam, wachtwoord, lengte,breedte,hoogte):
         qGebruiker = "UPDATE tblgebruiker SET naam ='"+naam+"', voornaam = '"+voornaam+"', email = '"+email+"', gebruikersnaam = '"+gebruikersnaam+"', wachtwoord = '"+wachtwoord+"' WHERE gebruikerID = "+id+";"
@@ -56,15 +56,6 @@ class DbClass:
         self.__cursor.close()
         return result
 
-    def getAqariumId(self):
-        print(self.__id)
-        q="SELECT aquariumID FROM tblaquarium WHERE gebruikerID="+self.__id+";"
-        print(q)
-        self.__cursor.execute(q)
-        result = self.__cursor.fetchall()
-        self.__cursor.close()
-        return result
-
     def getLog(self,aquariumID):
         q = "SELECT time, temperatuur, gemiddeldeTemperatuur FROM vissendb.tbllogfile where aquariumID="+aquariumID+";"
         self.__cursor.execute(q)
@@ -73,11 +64,19 @@ class DbClass:
         return result
 
     def insertLog(self,tijd, temp, gemTemp, id):
-        q="INSERT INTO `vissendb`.`tbllogfile` VALUES ('"+str(tijd)+"',"+str(temp)+","+str(gemTemp)+","+str(id)+");"
-        print(q)
-        self.__cursor.execute(q)
+        q1="INSERT INTO `vissendb`.`tbllogfile` VALUES ('"+str(tijd)+"',"+str(temp)+","+str(gemTemp)+","+str(id)+");"
+        print(q1)
+        self.__cursor.execute(q1)
         self.__connection.commit()
         self.__cursor.close()
+
+    def getGemTemp(self):
+        q1="SELECT gemiddeldetemperatuur FROM tbllogfile;"
+        print(q1)
+        self.__cursor.execute(q1)
+        result = self.__cursor.fetchall()
+        self.__cursor.close()
+        return result
 
     def temp(self):
         fp = open(DbClass.__bestand, 'r')

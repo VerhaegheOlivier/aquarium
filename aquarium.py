@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request
 from DBClass import DbClass
+from time import gmtime, strftime
+import time
 
 app = Flask(__name__)
 
@@ -31,7 +33,13 @@ def aanpassen():
 
 @app.route('/temperatuurAanpassen/zelfAangepast',methods=['POST'])
 def aangepastZelf():
-    tempZelf=request.form['zelfGraden']
+    tempZelf = request.form['zelfGraden']
+    db=DbClass()
+    tijd = strftime("%H:%M:%S %d-%m-%Y", gmtime())
+    temp = db.temp()
+    print('temp: ' + str(temp))
+    db.insertLog(tijd, temp, tempZelf, 1)
+
     if tempZelf>str(0):
         commentZelf="*De temperatuur is  handmatig gewijzigd."
     else:
@@ -41,6 +49,11 @@ def aangepastZelf():
 @app.route('/temperatuurAanpassen/automatischAangepast',methods=['POST'])
 def aangepastAuto():
     tempAuto=request.form['autoGraden']
+    db = DbClass()
+    tijd = strftime("%H:%M:%S %d-%m-%Y", gmtime())
+    temp = db.temp()
+    print('temp: ' + str(temp))
+    db.insertLog(tijd, temp, tempAuto, 1)
 
     if len(tempAuto)>0:
         commentAuto="*De temperatuur is automatisch gewijzigd."
