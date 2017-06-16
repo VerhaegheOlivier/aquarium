@@ -14,13 +14,14 @@ def home():
     ww = request.form["ww"]
     db=DbClass()
     page=db.inlog(gn,ww)
-    #temp=db.temp()
-    temp=""
+    temp=db.temp()
     return render_template(page,temp=temp)
 
 @app.route('/home')
 def home2():
-    return render_template("home.html")
+    db = DbClass()
+    temp = db.temp()
+    return render_template("home.html",temp=temp)
 
 @app.route('/temperatuurAanpassen')
 def aanpassen():
@@ -91,4 +92,4 @@ def aanpassenInstelingen():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='169.254.10.11')
