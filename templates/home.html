@@ -1,8 +1,18 @@
 <!-- Vul dit bestand verder aan, zodat het samenwerkt met layout.html, vergeet ook de titel niet -->
 {% extends "layout.html"%}
+{% block title %}
+Temperatuur bekijken
+{% endblock %}
 {% block inhoud %}
     <h1>Temperatuur bekijken</h1>
     <div id="graden"><b>{{ temp }}°C</b><br> <p>Op dit moment in de aquarium</p></div>
     <div id="fotos">fotos</div>
-    <div id="vorige"><p>1 uur geleden: 24,9°C</p><p>2 uur geleden: 25°C</p></div>
+    <div id="vorige">
+        <table>
+        <tr><th>Tijd</th><th>Graden</th></tr>
+            {% for i in range(0,max) %}
+                <tr><td>{{ gegevens[i][0] }}</td><td>{{ gegevens[i][1] }}°C</td></tr>
+            {% endfor %}
+        </table>
+    </div>
 {% endblock %}

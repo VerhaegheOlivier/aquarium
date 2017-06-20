@@ -89,4 +89,16 @@ fieldset{
     font-size: 55px;
     margin: 2px 0;
 }
+#vorige table{
+    border: 1px solid black;
+    padding: 2px;
+}
+#vorige td{
+    border: 1px solid black;
+    padding: 2px;
+}
+#vorige th{
+    border: 1px solid black;
+    padding: 2px;
+}
 

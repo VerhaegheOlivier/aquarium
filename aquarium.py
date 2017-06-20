@@ -17,13 +17,29 @@ def home():
     db=DbClass()
     page=db.inlog(gn,ww)
     temp=db.temp()
-    return render_template(page,temp=temp)
+    gegevensGebruiker=db.GetGebruikerID(gn,ww)
+    for gebruiker in gegevensGebruiker:
+        id=gebruiker[0]
+        aquariumID=db.getAquariumID(id)
+        for nummer in aquariumID:
+            vorige=db.getLog(nummer[0])
+            if len(vorige)<6:
+                max=len(vorige)
+            else:
+                max=6
+            return render_template(page,temp=temp,gegevens=vorige,max=max)
 
 @app.route('/home')
 def home2():
     db = DbClass()
     temp = db.temp()
-    return render_template("home.html",temp=temp)
+    gegevensGebruiker = db.GetGebruikerID(gn, ww)
+    for gebruiker in gegevensGebruiker:
+        id = gebruiker[0]
+        aquariumID = db.getAquariumID(id)
+        for nummer in aquariumID:
+            vorige = db.getLog(nummer[0])
+            return render_template("home.html",temp=temp,gegevens=vorige,max=len(vorige))
 
 @app.route('/temperatuurAanpassen')
 def aanpassen():
@@ -35,7 +51,7 @@ def aanpassen():
 def aangepastZelf():
     tempZelf = request.form['zelfGraden']
     db=DbClass()
-    tijd = strftime("%H:%M:%S %d-%m-%Y", gmtime())
+    tijd = strftime("%d-%m-%Y %H:%M:%S", gmtime())
     temp = db.temp()
     print('temp: ' + str(temp))
     db.insertLog(tijd, temp, tempZelf, 1)
@@ -50,7 +66,7 @@ def aangepastZelf():
 def aangepastAuto():
     tempAuto=request.form['autoGraden']
     db = DbClass()
-    tijd = strftime("%H:%M:%S %d-%m-%Y", gmtime())
+    tijd = strftime("%d-%m-%Y %H:%M:%S", gmtime())
     temp = db.temp()
     print('temp: ' + str(temp))
     db.insertLog(tijd, temp, tempAuto, 1)
@@ -105,4 +121,4 @@ def aanpassenInstelingen():
 
 
 if __name__ == '__main__':
-    app.run(host='169.254.10.11')
+    app.run(host="169.254.10.11")
